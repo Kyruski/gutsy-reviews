@@ -1,48 +1,59 @@
-import React from 'react';
+// @flow
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import Axios from 'axios';
-import SubmitReview from './components/SubmitReview.jsx'
-import ReviewsList from './components/ReviewsList.jsx';
-import { indexStyling } from '../style.js';
+import SubmitReview from './components/SubmitReview';
+import ReviewsList from './components/ReviewsList';
+import { indexStyling } from '../style';
 
-class Reviews extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      id: this.props.id || 1,
-      reviews: []
+const server =
+  process.env.AXIOS_LOCATION ||
+  'http://ec2-18-191-155-155.us-east-2.compute.amazonaws.com';
+
+const Reviews = () => {
+  const [
+    currentAdventure: number,
+    setCurrentAdventure: Function //eslint-disable-line
+  ] = useState(10);
+  const [reviews: Array<Object>, setReviews: Function] = useState([]);
+
+  const getReviews = (): void => {
+    Axios.get(`${server}/query/reviews/${currentAdventure}`)
+      .then(
+        (data: Object): void => {
+          setReviews(data.data);
+        }
+      )
+      .catch(
+        (err: Error): void => {
+          throw err;
+        }
+      );
+  };
+
+  useEffect(
+    (): void => {
+      window.addEventListener(
+        'changeID',
+        event => {
+          setCurrentAdventure(event.detail[0]);
+        },
+        false
+      );
     }
-  }
+  );
 
-  getReviews() {
-    Axios.get(`/query/reviews/${this.state.id}`)
-      .then((data) => {
-        this.setState({
-          reviews: data.data
-        })
-      })
-  }
+  useEffect((): void => {
+    getReviews();
+  }, [currentAdventure]); // only want to update if the id changes, else we invoke getReviews manually
 
-  componentDidMount() {
-    this.getReviews();
-  }
+  return (
+    <div style={indexStyling}>
+      <SubmitReview adventure_id={currentAdventure} getReviews={getReviews} />
+      <ReviewsList reviews={reviews} />
+    </div>
+  );
+};
+ReactDOM.render(<Reviews />, (document.getElementById('reviews'): any));
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState === this.state) {
-      this.getReviews();
-    }
-  }
-
-  render() {
-    return (
-      <div style={indexStyling}>
-        <SubmitReview adventure_id={this.state.id} getReviews={this.getReviews.bind(this)} />
-        <ReviewsList reviews={this.state.reviews} />
-      </div>
-    );
-  }
-}
-
-ReactDOM.render(<Reviews />, document.getElementById('reviews'));
-
-export default Reviews
+export default Reviews;

@@ -1,49 +1,67 @@
 module.exports = {
   indexStyling: {
-    display: 'inline-block',
-    width: '900px',
-    padding: '5px',
-    borderRadius: '10px',
-    border: '2px #242121 solid'
+    display: 'flex',
+    flexFlow: 'column',
+    width: '100%',
+    height: '100%'
   },
 
   submit: {
     main: {
-      padding: '10px'
+      paddingBottom: '10px',
+      height: '25%',
+      minHeight: '100px',
+      maxHeight: '250px'
+    },
+    form: {
+      height: '100%',
+      position: 'relative',
+      padding: '0px 12px 0px 12px'
     },
     text: {
-      width: '90%',
-      height: '200px',
+      width: '100%',
+      height: '85%',
       padding: '5px',
       resize: 'none',
-      borderRadius: '15px',
-      border: '1px #bababa solid'
+      borderRadius: '10px',
+      border: '1px #bababa solid',
+      outline: 'none'
     },
     username: {
+      marginLeft: '2px',
       borderRadius: '5px',
       border: '1px #bababa solid',
-      paddingLeft: '5px'
+      paddingLeft: '5px',
+      outline: 'none'
     },
     button: {
-      borderRadius: '5px'
+      position: 'absolute',
+      borderRadius: '5px',
+      outline: 'none',
+      right: '15px',
+      bottom: '-35px'
     }
   },
 
   list: {
     outer: {
-      padding: '5px',
-      borderTop: '1px #242121 solid'
+      flex: '1',
+      borderTop: '1px #242121 solid',
+      paddingTop: '5px',
+      overflow: 'auto'
     },
     inner: {
-      height: '700px',
+      height: '100%',
       overflow: 'auto'
     }
   },
   
   item: {
     table: {
-      width: '100%',
-      display: 'inline-table'
+      width: 'calc(100% - 70px)',
+      display: 'inline-table',
+      minHeight: '69px',
+      padding: '5px 0px'
     },
     topRow: {
       height: '25px'
@@ -72,7 +90,8 @@ module.exports = {
     review: {
       wordWrap: 'normal',
       colSpan: 4,
-      whiteSpace: 'pre-wrap'
+      whiteSpace: 'pre-wrap',
+      verticalAlign: 'top'
     }
   }
 };

@@ -1,14 +1,18 @@
-import React from 'react';
-import ReviewItem from './ReviewItem.jsx';
-import { list } from '../../style.js';
+// @flow
 
-export default (props) => {
-  const reviews = props.reviews.reverse(); //reversing the array so newest is shown first
+import React from 'react';
+import ReviewItem from './ReviewItem';
+import { list } from '../../style';
+
+const ReviewsList = ({ reviews }: { reviews: Array<Object> }) => {
+  const reviewsOrdered: Array<Object> = reviews.sort((a: Object, b: Object) =>
+    b.timestamp < a.timestamp ? -1 : 1
+  ); // sorting array by time
   return (
     <div style={list.outer}>
       <div style={list.inner}>
-        {reviews.map((review, index) => (
-          <div key={index}>
+        {reviewsOrdered.map(review => (
+          <div key={review.id}>
             <ReviewItem review={review} />
             &nbsp;
             <br />
@@ -17,5 +21,6 @@ export default (props) => {
       </div>
     </div>
   );
-}
+};
 
+export default ReviewsList;

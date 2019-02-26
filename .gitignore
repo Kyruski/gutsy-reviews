@@ -3,4 +3,8 @@ node_modules
 .env
 logfile
 client/dist/bundle.js
-.serverEnvironment
+client/dist/1.bundle.js
+client/dist/1.bundle.js.gz
+client/dist/bundle.js.gz
+client/dist/bundle.js.map.gz
+client/dist/bundle.js.map
